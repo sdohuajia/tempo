@@ -24,8 +24,8 @@ bash <(curl -sSL https://raw.githubusercontent.com/sdohuajia/tempo/refs/heads/ma
 - **操作系统**：Ubuntu/Debian Linux
 - **权限**：需要 root 或 sudo 权限
 - **网络**：需要稳定的网络连接
-- **磁盘空间**：建议至少 50GB 可用空间
-- **内存**：建议至少 4GB RAM
+- **磁盘空间**：建议至少 400GB 可用空间
+- **内存**：建议至少 16GB RAM
 
 ---
 

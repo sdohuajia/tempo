@@ -26,14 +26,28 @@ function deploy_node() {
     echo ""
 
     # 步骤2: 安装 Rust
-    echo -e "${GREEN}[2/9] 安装 Rust...${NC}"
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-
-    # 刷新环境变量
-    echo -e "${GREEN}刷新环境变量...${NC}"
-    source $HOME/.cargo/env
-    export PATH="$HOME/.cargo/bin:$PATH"
-    hash -r
+    echo -e "${GREEN}[2/9] 检查并安装 Rust...${NC}"
+    
+    # 检查 Rust 是否已安装
+    if command -v rustc &> /dev/null && command -v cargo &> /dev/null; then
+        echo -e "${YELLOW}检测到 Rust 已安装，跳过安装步骤${NC}"
+        # 刷新环境变量（如果存在）
+        if [ -f "$HOME/.cargo/env" ]; then
+            source $HOME/.cargo/env
+        fi
+        export PATH="$HOME/.cargo/bin:$PATH"
+        hash -r
+    else
+        echo -e "${GREEN}正在安装 Rust...${NC}"
+        # 设置环境变量跳过路径检查
+        export RUSTUP_INIT_SKIP_PATH_CHECK=yes
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+        
+        # 刷新环境变量
+        source $HOME/.cargo/env
+        export PATH="$HOME/.cargo/bin:$PATH"
+        hash -r
+    fi
 
     # 验证 Rust 安装
     echo -e "${GREEN}验证 Rust 安装...${NC}"

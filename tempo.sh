@@ -50,11 +50,20 @@ function deploy_node() {
     echo -e "${GREEN}✓ Tempo 安装完成${NC}"
     echo ""
 
-    # 步骤4: 验证版本
-    echo -e "${GREEN}[4/9] 验证 Tempo 版本...${NC}"
+    # 步骤4: 验证安装
+    echo -e "${GREEN}[4/9] 验证 Tempo 安装...${NC}"
     export PATH=/usr/local/bin:$PATH
     hash -r
-    tempo --version
+    
+    # 验证 tempo 命令是否可用
+    if command -v tempo &> /dev/null; then
+        echo -e "${GREEN}✓ Tempo 命令已安装${NC}"
+        tempo --help | head -n 5
+    else
+        echo -e "${RED}错误: Tempo 安装失败${NC}"
+        set +e
+        return 1
+    fi
 
     echo ""
     echo -e "${YELLOW}等待 2 秒...${NC}"
